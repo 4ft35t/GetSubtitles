@@ -114,7 +114,6 @@ class AssrtDownloader(Downloader):
         datatypes = ['.rar', '.zip', '.7z', '.ass', '.srt']
         for datatype in datatypes:
             if datatype in download_link:
-                print(download_link, datatype, len(sub_data_bytes))
                 break
         else:
             datatype = "Unknown"
