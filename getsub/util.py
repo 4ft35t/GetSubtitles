@@ -101,7 +101,7 @@ def extract_name(name, en=False):
                 result = [start, end]
             start = end
             end += 1
-        new_name = name[result[0] : result[1]]
+        new_name = name[result[0]: result[1]]
     new_name = new_name.strip() + suffix
     return new_name
 
@@ -182,9 +182,11 @@ def choose_subtitle(subtitles):
 
     items = []
     for subtitle in subtitles:
+        if subtitle.startswith('__MACOS'):
+            continue
         try:
-            # zipfile: Historical ZIP filename encoding
-            subtitle = subtitle.encode("cp437").decode("gbk")
+            subtitle_byte = subtitle.encode("cp437")
+            subtitle = f'{subtitle_byte.decode("gbk")}-{subtitle_byte.decode()}'
         except Exception:
             pass
         items.append(subtitle)
@@ -317,13 +319,13 @@ def get_file_list(data, datatype):
             file_handler = P7ZIP(sub_buff)
         except Exception:
             datatype = ".zip"  # try with zipfile
-    if datatype == ".zip":
+    elif datatype == ".zip":
         try:
             sub_buff.seek(0)
             file_handler = zipfile.ZipFile(sub_buff, mode="r")
         except Exception:
             datatype = ".rar"  # try with rarfile
-    if datatype == ".rar":
+    elif datatype == ".rar":
         sub_buff.seek(0)
         file_handler = rarfile.RarFile(sub_buff, mode="r")
 
