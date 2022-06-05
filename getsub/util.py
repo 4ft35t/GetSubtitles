@@ -182,8 +182,6 @@ def choose_subtitle(subtitles):
 
     items = []
     for subtitle in subtitles:
-        if subtitle.startswith('__MACOS'):
-            continue
         try:
             subtitle_byte = subtitle.encode("cp437")
             subtitle = f'{subtitle_byte.decode("gbk")}-{subtitle_byte.decode()}'
@@ -332,6 +330,8 @@ def get_file_list(data, datatype):
     sub_lists_dict = dict()
 
     for one_file in file_handler.namelist():
+        if one_file.startswith('__MACOS'):
+            continue
 
         if path.splitext(one_file)[-1] in SUB_FORMATS:
             sub_lists_dict[one_file] = file_handler
