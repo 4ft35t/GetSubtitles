@@ -317,13 +317,14 @@ def get_file_list(data, datatype):
             file_handler = P7ZIP(sub_buff)
         except Exception:
             datatype = ".zip"  # try with zipfile
-    elif datatype == ".zip":
+    if datatype == ".zip":
         try:
             sub_buff.seek(0)
             file_handler = zipfile.ZipFile(sub_buff, mode="r")
-        except Exception:
+        except Exception as e:
+            print(e)
             datatype = ".rar"  # try with rarfile
-    elif datatype == ".rar":
+    if datatype == ".rar":
         sub_buff.seek(0)
         file_handler = rarfile.RarFile(sub_buff, mode="r")
 
